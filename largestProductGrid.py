@@ -21,19 +21,10 @@ grid = [
     [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]
 ]
 
-def leftcheck(i,k):
-    try:
-        return grid[i][k]*grid[i][k-1]*grid[i][k-2]*grid[i][k-3]
-    except:
-        return 0
+
 def rightcheck(i,k):
     try:
         return grid[i][k]*grid[i][k+1]*grid[i][k+2]*grid[i][k+3]
-    except:
-        return 0
-def upcheck(i,k):
-    try:
-        return grid[i][k]*grid[i-1][k]*grid[i-2][k]*grid[i-3][k]
     except:
         return 0
 def downcheck(i,k):
@@ -50,57 +41,9 @@ def diagonally(i,k):
     except:
         return 0
 maxnumber=0
-for i in range(0,20):
-    for k in range(0,20):
-        temp=max(leftcheck(i,k),rightcheck(i,k),upcheck(i,k),downcheck(i,k))
-        print(temp)
+for i in range(20):
+    for k in range(20):
+        temp=max(rightcheck(i,k),diagonally(i,k),downcheck(i,k))
         maxnumber=max(maxnumber,temp)
-        print(maxnumber)
+print(f"Max number is:{maxnumber}")
         
-
-
-
-def max_product_in_grid(grid):
-    max_product = 0
-
-    # Define the dimensions of the grid
-    rows = len(grid)
-    cols = len(grid[0])
-
-    # Define the number of adjacent numbers to consider
-    adjacent_count = 4
-
-    for i in range(rows):
-        for j in range(cols):
-            # Check right
-            if j + adjacent_count <= cols:
-                product = 1
-                for k in range(adjacent_count):
-                    product *= grid[i][j + k]
-                max_product = max(max_product, product)
-
-            # Check down
-            if i + adjacent_count <= rows:
-                product = 1
-                for k in range(adjacent_count):
-                    product *= grid[i + k][j]
-                max_product = max(max_product, product)
-
-            # Check diagonal (bottom-right)
-            if i + adjacent_count <= rows and j + adjacent_count <= cols:
-                product = 1
-                for k in range(adjacent_count):
-                    product *= grid[i + k][j + k]
-                max_product = max(max_product, product)
-
-            # Check diagonal (bottom-left)
-            if i + adjacent_count <= rows and j - adjacent_count >= -1:
-                product = 1
-                for k in range(adjacent_count):
-                    product *= grid[i + k][j - k]
-                max_product = max(max_product, product)
-
-    return max_product
-
-result = max_product_in_grid(grid)
-print("Maximum product of four adjacent numbers:", result)
